@@ -29,7 +29,7 @@ pipeline {
         stage('Terraform Validate') {
             steps {
                 sh """
-                  terraform fmt -check
+                  terraform fmt -recursive
                   terraform validate
                 """
             }
