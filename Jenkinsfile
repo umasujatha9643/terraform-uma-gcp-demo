@@ -2,7 +2,7 @@ pipeline {
   agent {
     docker {
       image 'hashicorp/terraform:light'
-      args '-u root'
+      args '--entrypoint="" -u root'
     }
   }
 
@@ -18,9 +18,7 @@ pipeline {
 
     stage('Setup Credentials') {
       steps {
-        sh '''
-          echo "$GOOGLE_CLOUD_KEY" > terraform/gcp-key.json
-        '''
+        sh 'echo "$GOOGLE_CLOUD_KEY" > terraform/gcp-key.json'
       }
     }
 
