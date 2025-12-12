@@ -20,34 +20,45 @@ pipeline {
       steps {
         sh '''
           echo "$GOOGLE_CLOUD_KEY" > gcp-key.json
+          export GOOGLE_APPLICATION_CREDENTIALS=gcp-key.json
         '''
       }
     }
 
     stage('Terraform Init') {
       steps {
-        sh 'terraform init'
+        sh '''
+          export GOOGLE_APPLICATION_CREDENTIALS=gcp-key.json
+          terraform init
+        '''
       }
     }
 
     stage('Terraform Validate') {
       steps {
-        sh 'terraform validate'
+        sh '''
+          export GOOGLE_APPLICATION_CREDENTIALS=gcp-key.json
+          terraform validate
+        '''
       }
     }
 
     stage('Terraform Plan') {
       steps {
-        sh 'terraform plan'
+        sh '''
+          export GOOGLE_APPLICATION_CREDENTIALS=gcp-key.json
+          terraform plan
+        '''
       }
     }
 
     stage('Terraform Apply') {
-      when {
-        expression { params.APPLY == true }
-      }
+      when { expression { params.APPLY == true } }
       steps {
-        sh 'terraform apply -auto-approve'
+        sh '''
+          export GOOGLE_APPLICATION_CREDENTIALS=gcp-key.json
+          terraform apply -auto-approve
+        '''
       }
     }
   }
