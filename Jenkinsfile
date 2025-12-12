@@ -7,7 +7,7 @@ pipeline {
   }
 
   environment {
-    GOOGLE_CLOUD_KEY = credentials('gcp-key')
+    GOOGLE_CLOUD_KEY_FILE = credentials('gcp-key')
   }
 
   parameters {
@@ -19,7 +19,7 @@ pipeline {
     stage('Setup Credentials') {
       steps {
         sh '''
-          echo "$GOOGLE_CLOUD_KEY" > gcp-key.json
+          cp "$GOOGLE_CLOUD_KEY_FILE" gcp-key.json
           export GOOGLE_APPLICATION_CREDENTIALS=gcp-key.json
         '''
       }
