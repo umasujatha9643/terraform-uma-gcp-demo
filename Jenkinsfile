@@ -18,31 +18,27 @@ pipeline {
 
     stage('Setup Credentials') {
       steps {
-        sh 'echo "$GOOGLE_CLOUD_KEY" > terraform/gcp-key.json'
+        sh '''
+          echo "$GOOGLE_CLOUD_KEY" > gcp-key.json
+        '''
       }
     }
 
     stage('Terraform Init') {
       steps {
-        dir('terraform') {
-          sh 'terraform init'
-        }
+        sh 'terraform init'
       }
     }
 
     stage('Terraform Validate') {
       steps {
-        dir('terraform') {
-          sh 'terraform validate'
-        }
+        sh 'terraform validate'
       }
     }
 
     stage('Terraform Plan') {
       steps {
-        dir('terraform') {
-          sh 'terraform plan'
-        }
+        sh 'terraform plan'
       }
     }
 
@@ -51,9 +47,7 @@ pipeline {
         expression { params.APPLY == true }
       }
       steps {
-        dir('terraform') {
-          sh 'terraform apply -auto-approve'
-        }
+        sh 'terraform apply -auto-approve'
       }
     }
   }
